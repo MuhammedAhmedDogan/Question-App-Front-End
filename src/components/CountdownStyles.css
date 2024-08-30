@@ -1,0 +1,40 @@
+.countdown {
+    margin-bottom: 20px;
+    width: 150px;
+    height: 150px;
+    min-height: 150px;
+    box-sizing: border-box;
+    border: 2px solid #333;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+.countdown .frame{
+    position: absolute;
+    width: 155px;
+    height: 155px;
+    min-height: 155px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 50%;
+    background: conic-gradient(#7cfc00 0deg, #ff3030 0deg 100deg);
+    z-index: -1;
+}
+.countdown h1 {
+    margin: 0;
+    padding: 0;
+    width: 150px;
+    height: 150px;
+    min-height: 150px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

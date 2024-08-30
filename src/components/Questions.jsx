@@ -5,15 +5,11 @@ import './QuestionsStyles.css';
 function Questions({ count, setCount, finalData, setFinalData, isDisabled, setIsDisabled }) {
     const [showOptions, setShowOptions] = useState(false);
     const [optionsTimer, setOptionsTimer] = useState(4);
+    const [selectedOption, setSelectedOption] = useState(null);
 
     function handleClick(option, item) {
         setIsDisabled(true);
-        if (option === item.answer) {
-            document.getElementById(option).style.backgroundColor = '#00ff00';
-        } else {
-            document.getElementById(option).style.backgroundColor = '#ff0000'
-            document.getElementById(item.answer).style.backgroundColor = '#00ff00'
-        }
+        setSelectedOption(option);
 
         setFinalData(prevData =>
             prevData.map(finalItem =>
@@ -22,8 +18,9 @@ function Questions({ count, setCount, finalData, setFinalData, isDisabled, setIs
         );
 
         setTimeout(() => {
-            setCount(prevCount => prevCount + 1);
             setIsDisabled(false);
+            setSelectedOption(null);
+            setCount(prevCount => prevCount + 1);
         }, 1000);
     }
 
@@ -52,12 +49,15 @@ function Questions({ count, setCount, finalData, setFinalData, isDisabled, setIs
                 {
                     <div className='question-card'>
                         <img src={item.media} alt="question" />
-                        <h1 className='question'>{item.id+ ' - '+item.question}</h1>
+                        <h2 className='question'>{item.id + ' - ' + item.question}</h2>
                         {showOptions ? (<div className='options'>
                             {item.options.map((option, index) => (
-                                <div key={index}><button id={option} onClick={() => handleClick(option, item)} disabled={isDisabled}>{option}</button></div>
+                                <div key={index}><button className={`
+                                    ${selectedOption === option ? (option === item.answer ? 'correct' : 'incorrect') : ''}
+                                    ${selectedOption && option === item.answer ? 'correct' : ''}
+                                `} id={option} onClick={() => handleClick(option, item)} disabled={isDisabled}>{option}</button></div>
                             ))}
-                        </div>) : (<div className='countdown'>
+                        </div>) : (<div className='option-countdown'>
                             <p>Cevap şıkları <span>{optionsTimer}</span> saniye sonra açılacak.</p>
                         </div>)}
                     </div>

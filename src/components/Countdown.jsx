@@ -14,8 +14,8 @@ function Countdown({ count, setCount, finalData, setIsDisabled }) {
 
 
   useEffect(() => {
-    setTimer(6);
-    
+    setTimer(30);
+
     intervalRef.current = setInterval(() => {
       setTimer(prevTimer => {
         if (prevTimer > -1) {
@@ -31,7 +31,7 @@ function Countdown({ count, setCount, finalData, setIsDisabled }) {
 
 
   useEffect(() => {
-    if (timer === 6) {
+    if (timer === 30) {
       setIsDisabled(false);
     }
     if (timer === 0) {
@@ -40,11 +40,19 @@ function Countdown({ count, setCount, finalData, setIsDisabled }) {
     if (timer === -1) {
       setCount(prevCount => prevCount + 1);
     }
-  }, [timer, setCount, setIsDisabled])
+  }, [timer, setCount, setIsDisabled]);
+
+  const percentage = (1 - timer / 30) * 360;
+  const gradientStyle = {
+    background: `conic-gradient(#ff3030 ${percentage}deg, #7cfc00 0deg)`
+  };
 
 
   return (
-    <div><h1>{timer === 0 ? 'Süre Doldu!' : timer}</h1></div>
+    <div className='countdown'>
+      <div className='frame' style={gradientStyle}></div>
+      <h1>{timer === 0 ? 'Süre Doldu!' : timer}</h1>
+      </div>
   )
 }
 
