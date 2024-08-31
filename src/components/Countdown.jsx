@@ -4,11 +4,14 @@ import './CountdownStyles.css';
 
 function Countdown({ count, setCount, finalData, setIsDisabled }) {
   const [timer, setTimer] = useState(30);
+  const [percentage, setPercentage] = useState(0);
   const intervalRef = useRef(null);
+  const animationRef  = useRef(null);
 
   useEffect(() => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
+      cancelAnimationFrame(animationRef .current);
     }
   }, [finalData]);
 
@@ -29,6 +32,28 @@ function Countdown({ count, setCount, finalData, setIsDisabled }) {
     return () => clearInterval(intervalRef.current);
   }, [count]);
 
+  useEffect(() => {
+    setPercentage(0);
+    let start;
+    
+    function updatePercentage(timestamp) {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+
+      if (elapsed < 30000) {
+        setPercentage((elapsed / 30000) * 360);
+        animationRef.current = requestAnimationFrame(updatePercentage);
+      } else {
+        setPercentage(360);
+        cancelAnimationFrame(animationRef.current);
+      }
+    }
+
+    animationRef.current = requestAnimationFrame(updatePercentage);
+
+    return () => cancelAnimationFrame(animationRef.current);
+  }, [count]);
+
 
   useEffect(() => {
     if (timer === 30) {
@@ -42,7 +67,7 @@ function Countdown({ count, setCount, finalData, setIsDisabled }) {
     }
   }, [timer, setCount, setIsDisabled]);
 
-  const percentage = (1 - timer / 30) * 360;
+  
   const gradientStyle = {
     background: `conic-gradient(#ff3030 ${percentage}deg, #7cfc00 0deg)`
   };
