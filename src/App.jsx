@@ -14,9 +14,9 @@ function App() {
   return (
     <>
       {count === 0 && <StartScreen setCount={setCount} />}
-      {count > 0 && count < 11 && <Countdown count={count} setCount={setCount} finalData={finalData} setIsDisabled={setIsDisabled} />}
-      {count > 0 && count < 11 && <Questions count={count} setCount={setCount} finalData={finalData} setFinalData={setFinalData} isDisabled={isDisabled} setIsDisabled={setIsDisabled} />}
-      {count > 10 && <ResultScreen finalData={finalData} />}
+      {count > 0 && count <= finalData.length && <Countdown count={count} setCount={setCount} finalData={finalData} setIsDisabled={setIsDisabled} />}
+      {count > 0 && count <= finalData.length && <Questions count={count} setCount={setCount} finalData={finalData} setFinalData={setFinalData} isDisabled={isDisabled} setIsDisabled={setIsDisabled} />}
+      {count > finalData.length && <ResultScreen finalData={finalData} />}
     </>
   )
 }
